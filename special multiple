@@ -1,0 +1,81 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <string.h> // For memset
+
+// A simple queue implementation (can be replaced with a more robust one)
+typedef struct Node {
+    long long data;
+    struct Node *next;
+} Node;
+
+typedef struct Queue {
+    Node *front;
+    Node *rear;
+} Queue;
+
+void enqueue(Queue *q, long long val) {
+    Node *newNode = (Node *)malloc(sizeof(Node));
+    newNode->data = val;
+    newNode->next = NULL;
+    if (q->rear == NULL) {
+        q->front = q->rear = newNode;
+    } else {
+        q->rear->next = newNode;
+        q->rear = newNode;
+    }
+}
+
+long long dequeue(Queue *q) {
+    if (q->front == NULL) return -1; // Or handle error
+    Node *temp = q->front;
+    long long data = temp->data;
+    q->front = q->front->next;
+    if (q->front == NULL) q->rear = NULL;
+    free(temp);
+    return data;
+}
+
+bool isEmpty(Queue *q) {
+    return q->front == NULL;
+}
+
+long long solve(int n) {
+    Queue q;
+    q.front = q.rear = NULL;
+
+    // Use a boolean array to track visited remainders (modulo n)
+    // Max value of n is 5000, so array size n is sufficient
+    bool visited[n];
+    memset(visited, false, sizeof(visited));
+
+    enqueue(&q, 9);
+    visited[9 % n] = true;
+
+    while (!isEmpty(&q)) {
+        long long current_num = dequeue(&q);
+
+        if (current_num % n == 0) {
+            // Free remaining queue nodes before returning
+            while (!isEmpty(&q)) {
+                dequeue(&q);
+            }
+            return current_num;
+        }
+
+        // Append 0
+        long long num_with_0 = current_num * 10;
+        if (!visited[num_with_0 % n]) {
+            enqueue(&q, num_with_0);
+            visited[num_with_0 % n] = true;
+        }
+
+        // Append 9
+        long long num_with_9 = current_num * 10 + 9;
+        if (!visited[num_with_9 % n]) {
+            enqueue(&q, num_with_9);
+            visited[num_with_9 % n] = true;
+        }
+    }
+    return -1; // Should not be reached for valid inputs
+}

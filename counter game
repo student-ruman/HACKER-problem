@@ -1,0 +1,36 @@
+#include <stdio.h>
+
+// Function to count set bits in a number
+int countSetBits(unsigned long long n) {
+    int count = 0;
+    while (n > 0) {
+        n &= (n - 1); // This clears the least significant set bit
+        count++;
+    }
+    return count;
+}
+
+int main() {
+    int t;
+    scanf("%d", &t); // Read the number of test cases
+
+    while (t--) {
+        unsigned long long n;
+        scanf("%llu", &n); // Read the initial counter value
+
+        if (n == 1) { // Special case: If N is 1, Louise cannot make a move
+            printf("Richard\n");
+            continue;
+        }
+
+
+        int turns = countSetBits(n - 1);
+
+        if (turns % 2 == 1) { // If the number of turns is odd, Louise wins
+            printf("Louise\n");
+        } else { // If the number of turns is even, Richard wins
+            printf("Richard\n");
+        }
+    }
+    return 0;
+}

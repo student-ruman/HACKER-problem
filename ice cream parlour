@@ -1,0 +1,35 @@
+#include <stdio.h>
+
+// Function to find the two flavors
+void icecreamParlor(int m, int arr_count, int* arr) {
+    for (int i = 0; i < arr_count - 1; i++) {
+        for (int j = i + 1; j < arr_count; j++) {
+            if (arr[i] + arr[j] == m) {
+                printf("%d %d\n", i + 1, j + 1); // Print 1-based indices
+                return; // Solution found, exit
+            }
+        }
+    }
+}
+
+int main() {
+    int t;
+    scanf("%d", &t); // Number of test cases
+
+    while (t--) {
+        int m;
+        scanf("%d", &m); // Money available
+
+        int n;
+        scanf("%d", &n); // Number of flavors
+
+        int* arr = (int*)malloc(n * sizeof(int));
+        for (int i = 0; i < n; i++) {
+            scanf("%d", &arr[i]); // Costs of flavors
+        }
+
+        icecreamParlor(m, n, arr);
+        free(arr); // Free allocated memory
+    }
+    return 0;
+}

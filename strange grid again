@@ -1,0 +1,16 @@
+#include <stdio.h>
+int main()
+{
+    unsigned long long int r,c;
+    scanf("%llu%llu",&r,&c);
+    if(r%2 == 0)
+    {
+        unsigned long long int term = ((r-1)/2)*5+c;
+        printf("%llu",2*term-1); // nth term in odd series = 2*n-1
+    }
+    else{
+        unsigned long long int term = ((r)/2)*5+c;
+        printf("%llu", 2*term-2); // nth term in even series = 2*n-2
+    }
+    return 0;
+}

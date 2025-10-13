@@ -1,0 +1,25 @@
+#include<stdio.h>
+#include<malloc.h>
+#include<string.h>
+#define mod 1000000007
+int main()
+{
+    int i,j,n,k;
+    char s[200001];
+    scanf("%s",s);
+    n=strlen(s);
+    long long int val,count,ones;
+    long long int a[200001];
+    count=0;
+    a[n]=0;
+    ones=1;
+    for(i=n-1;i>=0;i--)
+    {
+        //printf("%d*%lld+%lld\n",s[i]-'0',ones,a[i+1]);
+        a[i]=((s[i]-'0')*(ones)+a[i+1])%mod;
+        ones=(ones*10+1)%mod;
+        count=(count+a[i])%mod;
+    }
+    printf("%lld\n",count);
+    return 0;
+}
